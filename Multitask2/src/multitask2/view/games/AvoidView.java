@@ -48,13 +48,13 @@ public final class AvoidView implements GameView {
     IntUnaryOperator rowToY = row -> area.y + (int) ((2 * Avoid.ROWS - 2 * row - 1) * scaleY);
 
     graphics.setColor(new Color(120, 120, 140));
-    graphics.fillRect(area.x + area.width - 8, area.y, 8, area.height);
+    graphics.fillRect(area.x + (area.width / 2) - 8, area.y, 8, area.height);
 
     var platformCenterY = rowToY.applyAsInt(avoider.row());
     var platformHalf = (int) scaleY;
     var platformWidth = 14;
     graphics.setColor(new Color(90, 200, 220));
-    graphics.fillRect(area.x + area.width - platformWidth, platformCenterY - platformHalf, platformWidth,
+    graphics.fillRect(area.x + (area.width / 2) - platformWidth, platformCenterY - platformHalf, platformWidth,
         platformHalf * 2);
 
     graphics.setColor(new Color(230, 90, 90));
