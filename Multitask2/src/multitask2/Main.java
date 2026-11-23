@@ -1,14 +1,10 @@
 package multitask2;
 
-import java.awt.Rectangle;
 import java.util.Objects;
 import java.util.function.Function;
 
 import com.github.forax.zen.Application;
 import com.github.forax.zen.ApplicationContext;
-import com.github.forax.zen.KeyboardEvent;
-import com.github.forax.zen.KeyboardEvent.Key;
-import com.github.forax.zen.PointerEvent;
 
 import multitask2.controller.Controller;
 import multitask2.model.Game;
@@ -16,6 +12,7 @@ import multitask2.model.Model;
 import multitask2.model.games.Balance;
 import multitask2.model.games.Avoid;
 import multitask2.view.GeneralView;
+import multitask2.view.MainMenuView;
 import multitask2.view.Viewers;
 import multitask2.view.games.AvoidView;
 import multitask2.view.games.BalanceView;
@@ -47,60 +44,17 @@ public final class Main {
    *             actuellement
    */
   public static void main(String[] args) {
-    Application.run(GeneralView.BACKGROUND, Main::renderMainMenu);  
+    Application.run(GeneralView.BACKGROUND, Main::runGame);  
   }
   
   /**
-   * Gère la partie gestion de la souris et du clavier pour le menu principal
+   * Gère les différentes étapes du jeu (Menu principal, Jeu, Score) et appel les méthode correspondante.
    * 
-   * @param context contexte graphique utilisé pour le rendu
+   * @param context contexte graphique fourni par la bibliothèque Zen
    */
-  public static void renderMainMenu(ApplicationContext context) {
-	  context = Objects.requireNonNull(context);
-	  var screen = context.getScreenInfo();
-	  var height = screen.height();
-	  var width = screen.width();
-
-	  context.renderFrame(graphics -> GeneralView.drawMainMenu(graphics, width, height));
-	  
-	  
-	  var playing = true;
-	  var recJouer = new Rectangle((int) (width / 2.5), (height / 5) * 2, width / 5, height / 10);
-	  var recQuitte = new Rectangle((int) (width / 2.5), (int) ((height / 5) * 3), width / 5, height / 10);
-	  
-	  while (playing) {
-	        var event = context.pollEvent();
-	        if (event == null) {
-	          continue;
-	        }
-	        switch (event) {
-			case PointerEvent s: {
-				var mouse = s.location();
-				if (Game.isInRectangle(mouse.x(), mouse.y(), recJouer)) {
-					Main.game(context);
-					playing = false;
-				}
-				else if (Game.isInRectangle(mouse.x(), mouse.y(), recQuitte)) {
-					playing = false;
-				}
-				else {
-					continue;
-				}
-				break;
-			}
-			case KeyboardEvent k: {
-				if (k.key() == Key.J) {
-					Main.game(context);
-					playing = false;
-		        	break;
-				}
-				if (k.key() == Key.Q) {
-					playing = false;
-		        	break;
-				}
-			}
-			default:{}
-			}
+  private static void runGame(ApplicationContext context) {
+	  if (MainMenuView.renderMainMenu(context)) {
+		  Main.game(context);
 	  }
 	  context.dispose();
   }
@@ -113,7 +67,8 @@ public final class Main {
    *
    * @param context contexte graphique fourni par la bibliothèque Zen
    */
-  private static void game(ApplicationContext context) {
+  public static void game(ApplicationContext context) {
+	Objects.requireNonNull(context);
     var model = new Model();
     var viewers = new Viewers();
     addGame(model, viewers, new Balance(), 0, BalanceView::new);

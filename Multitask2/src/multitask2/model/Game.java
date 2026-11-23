@@ -1,6 +1,5 @@
 package multitask2.model;
 
-import java.awt.Rectangle;
 import java.util.Objects;
 
 import multitask2.controller.Input;
@@ -97,26 +96,6 @@ public interface Game {
       throw new IllegalArgumentException("The target interval cannot be empty.");
     }
     if (value < min || value > max) {
-    	return false;
-    }
-    return true;
-  }
-  
-  /**
-   * Vérifie qu'un point est dans un rectangle
-   *
-   * @param x     abscisse du point
-   * @param y     ordonné du point
-   * @param rec   rectangle à 4 coordonées
-   * @return renvoie {@code true} si dans le rectangle et {@code false} sinon
-   * @throws     Objects.requireNonNull si {@code rec == null}
-   */
-  static boolean isInRectangle(int x, int y, Rectangle rec) {
-    Objects.requireNonNull(rec);
-    if (x < rec.x || x > rec.x + rec.width) {
-    	return false;
-    }
-    if (y < rec.y || y > rec.y + rec.height) {
     	return false;
     }
     return true;
