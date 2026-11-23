@@ -145,6 +145,37 @@ public final class GeneralView implements View {
     var inner = new Rectangle(bounds.x + 10, bounds.y + 26, bounds.width - 20, bounds.height - 52);
     viewers.view(slot.game()).render(graphics, inner);
   }
+  
+  /**
+   * Dessine le menu principale qui permet de lancer la partie ou de quitter directement
+   * 
+   * @param graphics surface graphique de l'image en cours
+   */
+  public static void drawMainMenu(Graphics2D graphics, int width, int height) {
+	  // Couleur pour le fond
+	  graphics.setColor(BACKGROUND);
+	  graphics.fillRect(0, 0, width, height);
+	  
+	  // Titre du menu principal
+	  graphics.setColor(Color.WHITE);
+	  graphics.setFont(graphics.getFont().deriveFont(Font.BOLD, 40f));
+	  graphics.drawString("Menu principal Multitask 2", (int) (width / 3), height / 5);
+	  
+	  // Bouton Jouer
+	  var recJouer = new Rectangle((int) (width / 2.5), (height / 5) * 2, width / 5, height / 10);
+	  graphics.setColor(Color.GRAY);
+	  graphics.drawRoundRect(recJouer.x, recJouer.y, recJouer.width, recJouer.height, 10, 10);
+	  graphics.setColor(Color.WHITE);
+	  centerText(graphics, "J pour Jouer", recJouer);
+	  
+	  // Bouton Quitter
+	  var recQuitte = new Rectangle((int) (width / 2.5), (int) ((height / 5) * 3), width / 5, height / 10);
+	  graphics.setColor(Color.GRAY);
+	  graphics.drawRoundRect(recQuitte.x, recQuitte.y, recQuitte.width, recQuitte.height, 10, 10);
+	  graphics.setColor(Color.WHITE);
+	  centerText(graphics, "Q pour Quitter", recQuitte);
+	  
+  }
 
   /**
    * Dessine un texte horizontalement centré dans un rectangle, à mi-hauteur de
