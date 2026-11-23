@@ -11,7 +11,7 @@ import com.github.forax.zen.KeyboardEvent;
 import com.github.forax.zen.PointerEvent;
 import com.github.forax.zen.KeyboardEvent.Key;
 
-/*
+/**
  * Gestion du menu principal
  */
 public class MainMenuView {
