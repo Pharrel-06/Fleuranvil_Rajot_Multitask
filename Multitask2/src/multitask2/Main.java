@@ -116,10 +116,8 @@ public final class Main {
   private static void game(ApplicationContext context) {
     var model = new Model();
     var viewers = new Viewers();
-    // !!!!!!!!!!!!!!!! Pour remettre balance en premier, mettre temps à 0
     addGame(model, viewers, new Balance(), 0, BalanceView::new);
     addGame(model, viewers, new Avoid(), 5, AvoidView::new);
-    addGame(model, viewers, new Avoid(), 10, AvoidView::new);
 
     var view = new GeneralView(context, viewers);
     var controller = new Controller(model, view, context);
