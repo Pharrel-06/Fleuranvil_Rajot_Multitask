@@ -13,6 +13,7 @@ import multitask2.model.games.Balance;
 import multitask2.model.games.Avoid;
 import multitask2.view.GeneralView;
 import multitask2.view.MainMenuView;
+import multitask2.view.ScoreView;
 import multitask2.view.Viewers;
 import multitask2.view.games.AvoidView;
 import multitask2.view.games.BalanceView;
@@ -48,13 +49,18 @@ public final class Main {
   }
   
   /**
-   * Gère les différentes étapes du jeu (Menu principal, Jeu, Score) et appel les méthode correspondante.
+   * Gère les différentes étapes du jeu (Menu principal, Jeu, Score) et appel les méthodes correspondante.
    * 
    * @param context contexte graphique fourni par la bibliothèque Zen
    */
   private static void runGame(ApplicationContext context) {
 	  if (MainMenuView.renderMainMenu(context)) {
-		  Main.game(context);
+		  var time = Main.game(context);
+		  while (ScoreView.renderScore(context, time)) {
+			  time = Main.game(context);
+		  }
+		  Main.runGame(context);
+		  return;
 	  }
 	  context.dispose();
   }
@@ -67,7 +73,8 @@ public final class Main {
    *
    * @param context contexte graphique fourni par la bibliothèque Zen
    */
-  public static void game(ApplicationContext context) {
+  //@SuppressWarnings("finally")
+  private static int game(ApplicationContext context) {
 	Objects.requireNonNull(context);
     var model = new Model();
     var viewers = new Viewers();
@@ -76,12 +83,15 @@ public final class Main {
 
     var view = new GeneralView(context, viewers);
     var controller = new Controller(model, view, context);
-
-    try {
-      controller.run();
-    } finally {
-      context.dispose();
-    }
+    
+    controller.run();
+    return model.time();
+    //jsp si c'est nécessaire d'avoir le try mais ça marche sans (question à poser au prof)
+//    try {
+//      controller.run();
+//    } finally {
+//      return model.time();
+//    }
   }
 
   /**

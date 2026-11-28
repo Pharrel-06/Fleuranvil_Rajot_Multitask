@@ -49,9 +49,9 @@ public final class Avoid implements Game {
      */
     private Missile moveMissile(double dx) {
       if (direction == 1) {
-    	  return new Missile(x +dx, row, direction);
+    	  return new Missile(x + dx, row, direction);
       }
-      return new Missile(x -dx, row, direction);
+      return new Missile(x - dx, row, direction);
     }
   }
 

@@ -11,7 +11,6 @@ import com.github.forax.zen.KeyboardEvent;
 import com.github.forax.zen.PointerEvent;
 import com.github.forax.zen.KeyboardEvent.Key;
 
-import multitask2.model.Model;
 
 /**
  * Gestion de l'affichage du score
@@ -58,13 +57,13 @@ public class ScoreView {
 	   * 
 	   * @throws NullPointerException si {@code context} est {@code null}
 	   */
-	  public static boolean renderScore(ApplicationContext context,Model model) {
+	  public static boolean renderScore(ApplicationContext context, int time) {
 		  Objects.requireNonNull(context);
 		  
 		  var score = new ScoreView(context);
 		  
 		  /* Affichage du Score */
-		  score.context.renderFrame(graphics -> ScoreView.drawFinalScore(graphics, score, model));
+		  score.context.renderFrame(graphics -> ScoreView.drawFinalScore(graphics, score, time));
 		  
 		  while (true) {
 		        var event = context.pollEvent();
@@ -106,7 +105,7 @@ public class ScoreView {
 	   * @param score 
 	   * @param model    modèle fournissant le temps écoulé
 	   */
-	  private static void drawFinalScore(Graphics2D graphics, ScoreView score, Model model) {
+	  private static void drawFinalScore(Graphics2D graphics, ScoreView score, int time) {
 		  var height = score.height;
 		  var width = score.width;
 		  // Couleur pour le fond
@@ -116,7 +115,7 @@ public class ScoreView {
 		  // Affichage du score
 		  graphics.setColor(Color.WHITE);
 		  graphics.setFont(graphics.getFont().deriveFont(Font.BOLD, 40f));
-		  String text = String.format("Score : " + model.time());
+		  String text = String.format("Score : " + time);
 		  graphics.drawString(text, (int) (width / 3), height / 5);
 		  
 		  // Bouton Rejouer
